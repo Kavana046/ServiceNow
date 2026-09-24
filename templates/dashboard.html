@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ServiceNow | Dashboard</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #1f2933;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .top-header {
+            height: 64px;
+            background: #111827;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .welcome-user {
+            font-size: 14px;
+            color: #d1d5db;
+        }
+
+        .logout {
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            border: 1px solid #4b5563;
+            padding: 8px 14px;
+            border-radius: 4px;
+        }
+
+        .logout:hover {
+            background: #374151;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            bottom: 0;
+            width: 225px;
+            background: #1f2937;
+            padding-top: 20px;
+        }
+
+        .sidebar-title {
+            color: #9ca3af;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 0 20px 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: block;
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 13px 20px;
+            font-size: 14px;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: #374151;
+            color: white;
+        }
+
+        .nav-item.active {
+            background: #374151;
+            color: white;
+            border-left-color: #9ca3af;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: #374151;
+            margin: 18px 15px;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main-container {
+            margin-left: 225px;
+            padding: 95px 35px 50px;
+        }
+
+        .breadcrumb {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 18px;
+        }
+
+        /* =========================
+           WELCOME
+        ========================= */
+
+        .welcome-panel {
+            background: white;
+            border: 1px solid #d9dee5;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .welcome-title {
+            font-size: 25px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .welcome-text {
+            margin-top: 7px;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        /* =========================
+           STAT CARDS
+        ========================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #d9dee5;
+            padding: 20px;
+            min-height: 115px;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .stat-number {
+            color: #111827;
+            font-size: 29px;
+            font-weight: 600;
+        }
+
+        .stat-line {
+            height: 3px;
+            background: #111827;
+            margin-top: 15px;
+            width: 35px;
+        }
+
+        /* =========================
+           CREATE CARDS
+        ========================= */
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 12px;
+        }
+
+        .create-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .create-card {
+            background: white;
+            border: 1px solid #d9dee5;
+            padding: 22px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .create-card:hover {
+            border-color: #9ca3af;
+            background: #fafafa;
+        }
+
+        .create-title {
+            color: #111827;
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .create-description {
+            color: #6b7280;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .create-link {
+            margin-top: 15px;
+            display: inline-block;
+            color: #374151;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* =========================
+           RECENT TICKETS
+        ========================= */
+
+        .tickets-panel {
+            background: white;
+            border: 1px solid #d9dee5;
+            overflow: hidden;
+        }
+
+        .tickets-header {
+            padding: 17px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tickets-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .view-all {
+            text-decoration: none;
+            color: #374151;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #4b5563;
+            font-size: 10px;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid #d9dee5;
+        }
+
+        td {
+            padding: 13px 15px;
+            font-size: 12px;
+            border-bottom: 1px solid #edf0f2;
+            color: #374151;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: #f9fafb;
+        }
+
+        .ticket-link {
+            color: #111827;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .ticket-link:hover {
+            text-decoration: underline;
+        }
+
+        .type-badge,
+        .state-badge {
+            display: inline-block;
+            padding: 5px 8px;
+            background: #f9fafb;
+            border: 1px solid #d1d5db;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .description {
+            max-width: 380px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .empty-state {
+            padding: 40px 20px;
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+        }
+
+        /* =========================
+           QUICK ACTIONS
+        ========================= */
+
+        .quick-panel {
+            margin-top: 20px;
+            background: white;
+            border: 1px solid #d9dee5;
+            padding: 20px;
+        }
+
+        .quick-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 15px;
+        }
+
+        .quick-links {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .quick-link {
+            text-decoration: none;
+            color: #374151;
+            border: 1px solid #d1d5db;
+            padding: 9px 14px;
+            border-radius: 3px;
+            font-size: 12px;
+            background: white;
+        }
+
+        .quick-link:hover {
+            background: #f3f4f6;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .tickets-panel {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 750px;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                width: 180px;
+            }
+
+            .main-container {
+                margin-left: 180px;
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .create-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-user {
+                display: none;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header class="top-header">
+
+        <div class="logo">
+            ServiceNow
+        </div>
+
+        <div class="header-right">
+
+            <div class="welcome-user">
+                {{ full_name }}
+            </div>
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-title">
+            Navigation
+        </div>
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="nav-item active"
+        >
+            Dashboard
+        </a>
+
+
+        <a
+            href="{{ url_for('ticket_list') }}"
+            class="nav-item"
+        >
+            My Tickets
+        </a>
+
+
+        <div class="sidebar-divider"></div>
+
+
+        <div class="sidebar-title">
+            Create
+        </div>
+
+
+        <a
+            href="{{ url_for('incident') }}"
+            class="nav-item"
+        >
+            Create Incident
+        </a>
+
+
+        <a
+            href="{{ url_for('service_request') }}"
+            class="nav-item"
+        >
+            Create Request
+        </a>
+
+
+        <div class="sidebar-divider"></div>
+
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="nav-item"
+        >
+            Logout
+        </a>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN CONTENT
+    ========================= -->
+
+    <main class="main-container">
+
+
+        <div class="breadcrumb">
+            Home &nbsp; / &nbsp; Dashboard
+        </div>
+
+
+        <!-- WELCOME -->
+
+        <div class="welcome-panel">
+
+            <div class="welcome-title">
+                Welcome, {{ full_name }}
+            </div>
+
+            <div class="welcome-text">
+                Manage your incidents and service requests from one place.
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             STATISTICS
+        ========================= -->
+
+        <div class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    TOTAL TICKETS
+                </div>
+
+                <div class="stat-number">
+                    {{ total_tickets }}
+                </div>
+
+                <div class="stat-line"></div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    OPEN TICKETS
+                </div>
+
+                <div class="stat-number">
+                    {{ open_tickets }}
+                </div>
+
+                <div class="stat-line"></div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    RESOLVED
+                </div>
+
+                <div class="stat-number">
+                    {{ resolved_tickets }}
+                </div>
+
+                <div class="stat-line"></div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-label">
+                    CLOSED
+                </div>
+
+                <div class="stat-number">
+                    {{ closed_tickets }}
+                </div>
+
+                <div class="stat-line"></div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =========================
+             CREATE SECTION
+        ========================= -->
+
+        <div class="section-title">
+            Create a Ticket
+        </div>
+
+
+        <div class="create-grid">
+
+
+            <a
+                href="{{ url_for('incident') }}"
+                class="create-card"
+            >
+
+                <div class="create-title">
+                    Create Incident
+                </div>
+
+                <div class="create-description">
+                    Report an issue, interruption, hardware problem,
+                    software problem or other service disruption.
+                </div>
+
+                <div class="create-link">
+                    Create Incident →
+                </div>
+
+            </a>
+
+
+            <a
+                href="{{ url_for('service_request') }}"
+                class="create-card"
+            >
+
+                <div class="create-title">
+                    Create Request
+                </div>
+
+                <div class="create-description">
+                    Submit a request for a service, access, equipment
+                    or other standard requirement.
+                </div>
+
+                <div class="create-link">
+                    Create Request →
+                </div>
+
+            </a>
+
+
+        </div>
+
+
+        <!-- =========================
+             RECENT TICKETS
+        ========================= -->
+
+        <div class="tickets-panel">
+
+
+            <div class="tickets-header">
+
+                <div class="tickets-title">
+                    Recent Tickets
+                </div>
+
+                <a
+                    href="{{ url_for('ticket_list') }}"
+                    class="view-all"
+                >
+                    View All
+                </a>
+
+            </div>
+
+
+            {% if recent_tickets %}
+
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            NUMBER
+                        </th>
+
+                        <th>
+                            TYPE
+                        </th>
+
+                        <th>
+                            SHORT DESCRIPTION
+                        </th>
+
+                        <th>
+                            STATE
+                        </th>
+
+                        <th>
+                            PRIORITY
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                    {% for ticket in recent_tickets %}
+
+                    <tr>
+
+                        <td>
+
+                            <a
+                                href="{{ url_for('ticket_detail', ticket_id=ticket.id) }}"
+                                class="ticket-link"
+                            >
+                                {{ ticket.ticket_number }}
+                            </a>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="type-badge">
+                                {{ ticket.ticket_type }}
+                            </span>
+
+                        </td>
+
+
+                        <td class="description">
+
+                            {{ ticket.short_description }}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="state-badge">
+                                {{ ticket.state or "-" }}
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            {{ ticket.priority or "-" }}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+
+            {% else %}
+
+
+            <div class="empty-state">
+
+                No tickets have been created yet.
+
+            </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+        <!-- =========================
+             QUICK ACTIONS
+        ========================= -->
+
+        <div class="quick-panel">
+
+            <div class="quick-title">
+                Quick Actions
+            </div>
+
+
+            <div class="quick-links">
+
+                <a
+                    href="{{ url_for('ticket_list') }}"
+                    class="quick-link"
+                >
+                    View My Tickets
+                </a>
+
+
+                <a
+                    href="{{ url_for('incident') }}"
+                    class="quick-link"
+                >
+                    New Incident
+                </a>
+
+
+                <a
+                    href="{{ url_for('service_request') }}"
+                    class="quick-link"
+                >
+                    New Request
+                </a>
+
+            </div>
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

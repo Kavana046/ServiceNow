@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ServiceNow | My Tickets</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f6f8;
+            color: #1f2933;
+        }
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .top-header {
+            height: 64px;
+            background: #111827;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 28px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .welcome-user {
+            font-size: 14px;
+            color: #d1d5db;
+        }
+
+        .logout {
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            border: 1px solid #4b5563;
+            padding: 8px 14px;
+            border-radius: 4px;
+        }
+
+        .logout:hover {
+            background: #374151;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            position: fixed;
+            top: 64px;
+            left: 0;
+            bottom: 0;
+            width: 225px;
+            background: #1f2937;
+            padding-top: 20px;
+        }
+
+        .sidebar-title {
+            color: #9ca3af;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 0 20px 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-item {
+            display: block;
+            color: #d1d5db;
+            text-decoration: none;
+            padding: 13px 20px;
+            font-size: 14px;
+            border-left: 3px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: #374151;
+            color: white;
+        }
+
+        .nav-item.active {
+            background: #374151;
+            color: white;
+            border-left-color: #9ca3af;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: #374151;
+            margin: 18px 15px;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main-container {
+            margin-left: 225px;
+            padding: 95px 35px 50px;
+        }
+
+        .breadcrumb {
+            font-size: 13px;
+            color: #6b7280;
+            margin-bottom: 18px;
+        }
+
+        /* =========================
+           PAGE HEADER
+        ========================= */
+
+        .page-header {
+            background: white;
+            border: 1px solid #d9dee5;
+            padding: 22px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .page-title {
+            font-size: 25px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .page-subtitle {
+            margin-top: 6px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        .create-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            border: 1px solid #cbd5e1;
+            background: white;
+            color: #374151;
+            padding: 9px 15px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #f3f4f6;
+        }
+
+        .btn-dark {
+            background: #111827;
+            color: white;
+            border-color: #111827;
+        }
+
+        .btn-dark:hover {
+            background: #1f2937;
+        }
+
+        /* =========================
+           FILTER BAR
+        ========================= */
+
+        .filter-panel {
+            background: white;
+            border: 1px solid #d9dee5;
+            border-top: none;
+            padding: 15px 20px;
+        }
+
+        .filter-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            border: 1px solid #d1d5db;
+            background: #f9fafb;
+            color: #4b5563;
+            padding: 8px 13px;
+            border-radius: 3px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .filter-btn:hover {
+            background: #e5e7eb;
+        }
+
+        .filter-btn.active {
+            background: #111827;
+            color: white;
+            border-color: #111827;
+        }
+
+        .search-area {
+            display: flex;
+            gap: 7px;
+        }
+
+        .search-box {
+            width: 260px;
+            height: 36px;
+            border: 1px solid #cbd5e1;
+            border-radius: 3px;
+            padding: 0 10px;
+            font-size: 12px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: #6b7280;
+        }
+
+        .refresh-btn {
+            height: 36px;
+            padding: 0 13px;
+            border: 1px solid #cbd5e1;
+            background: white;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .refresh-btn:hover {
+            background: #f3f4f6;
+        }
+
+        /* =========================
+           TABLE PANEL
+        ========================= */
+
+        .table-panel {
+            margin-top: 18px;
+            background: white;
+            border: 1px solid #d9dee5;
+            overflow: hidden;
+        }
+
+        .table-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .table-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        .record-count {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #4b5563;
+            font-size: 11px;
+            font-weight: 600;
+            text-align: left;
+            padding: 12px 15px;
+            border-bottom: 1px solid #d9dee5;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 13px 15px;
+            font-size: 12px;
+            border-bottom: 1px solid #edf0f2;
+            color: #374151;
+        }
+
+        tr:hover td {
+            background: #f9fafb;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .ticket-link {
+            color: #111827;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .ticket-link:hover {
+            text-decoration: underline;
+        }
+
+        .type-badge {
+            display: inline-block;
+            padding: 5px 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 3px;
+            background: #f9fafb;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .state-badge {
+            display: inline-block;
+            padding: 5px 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 3px;
+            background: #f9fafb;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .priority {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .description-cell {
+            max-width: 320px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .category-cell {
+            color: #6b7280;
+        }
+
+        .created-cell {
+            white-space: nowrap;
+            color: #6b7280;
+        }
+
+        /* =========================
+           EMPTY STATE
+        ========================= */
+
+        .empty-state {
+            display: none;
+            text-align: center;
+            padding: 55px 20px;
+        }
+
+        .empty-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 8px;
+        }
+
+        .empty-text {
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .filter-row {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .search-area {
+                width: 100%;
+            }
+
+            .search-box {
+                flex: 1;
+                width: auto;
+            }
+
+            .table-panel {
+                overflow-x: auto;
+            }
+
+            table {
+                min-width: 900px;
+            }
+
+        }
+
+        @media (max-width: 700px) {
+
+            .sidebar {
+                width: 180px;
+            }
+
+            .main-container {
+                margin-left: 180px;
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .page-header {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .create-buttons {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header class="top-header">
+
+        <div class="logo">
+            ServiceNow
+        </div>
+
+        <div class="header-right">
+
+            <div class="welcome-user">
+                {{ full_name }}
+            </div>
+
+            <a
+                href="{{ url_for('logout') }}"
+                class="logout"
+            >
+                Logout
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         SIDEBAR
+    ========================= -->
+
+    <aside class="sidebar">
+
+        <div class="sidebar-title">
+            Navigation
+        </div>
+
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="nav-item"
+        >
+            Dashboard
+        </a>
+
+
+        <a
+            href="{{ url_for('ticket_list') }}"
+            class="nav-item active"
+        >
+            My Tickets
+        </a>
+
+
+        <div class="sidebar-divider"></div>
+
+
+        <div class="sidebar-title">
+            Create
+        </div>
+
+
+        <a
+            href="{{ url_for('incident') }}"
+            class="nav-item"
+        >
+            Create Incident
+        </a>
+
+
+        <a
+            href="{{ url_for('service_request') }}"
+            class="nav-item"
+        >
+            Create Request
+        </a>
+
+
+        <div class="sidebar-divider"></div>
+
+
+        <a
+            href="{{ url_for('logout') }}"
+            class="nav-item"
+        >
+            Logout
+        </a>
+
+    </aside>
+
+
+    <!-- =========================
+         MAIN
+    ========================= -->
+
+    <main class="main-container">
+
+
+        <div class="breadcrumb">
+            Home &nbsp; / &nbsp; My Tickets
+        </div>
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="page-header">
+
+            <div>
+
+                <div class="page-title">
+                    My Tickets
+                </div>
+
+                <div class="page-subtitle">
+                    View and manage your incidents and requests
+                </div>
+
+            </div>
+
+
+            <div class="create-buttons">
+
+                <a
+                    href="{{ url_for('incident') }}"
+                    class="btn"
+                >
+                    + Incident
+                </a>
+
+                <a
+                    href="{{ url_for('service_request') }}"
+                    class="btn btn-dark"
+                >
+                    + Request
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- FILTER PANEL -->
+
+        <div class="filter-panel">
+
+            <div class="filter-row">
+
+
+                <div class="filter-buttons">
+
+                    <button
+                        type="button"
+                        class="filter-btn active"
+                        data-filter="all"
+                    >
+                        All
+                    </button>
+
+                    <button
+                        type="button"
+                        class="filter-btn"
+                        data-filter="Incident"
+                    >
+                        Incidents
+                    </button>
+
+                    <button
+                        type="button"
+                        class="filter-btn"
+                        data-filter="Request"
+                    >
+                        Requests
+                    </button>
+
+                    <button
+                        type="button"
+                        class="filter-btn"
+                        data-filter="Open"
+                    >
+                        Open
+                    </button>
+
+                    <button
+                        type="button"
+                        class="filter-btn"
+                        data-filter="Resolved"
+                    >
+                        Resolved
+                    </button>
+
+                    <button
+                        type="button"
+                        class="filter-btn"
+                        data-filter="Closed"
+                    >
+                        Closed
+                    </button>
+
+                </div>
+
+
+                <div class="search-area">
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        class="search-box"
+                        placeholder="Search tickets..."
+                    >
+
+                    <button
+                        type="button"
+                        class="refresh-btn"
+                        onclick="location.reload()"
+                    >
+                        Refresh
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- TABLE -->
+
+        <div class="table-panel">
+
+
+            <div class="table-header">
+
+                <div class="table-title">
+                    Ticket Records
+                </div>
+
+                <div
+                    class="record-count"
+                    id="recordCount"
+                >
+                    {{ tickets|length }} records
+                </div>
+
+            </div>
+
+
+            <table id="ticketTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            NUMBER
+                        </th>
+
+                        <th>
+                            TYPE
+                        </th>
+
+                        <th>
+                            SHORT DESCRIPTION
+                        </th>
+
+                        <th>
+                            CATEGORY
+                        </th>
+
+                        <th>
+                            STATE
+                        </th>
+
+                        <th>
+                            PRIORITY
+                        </th>
+
+                        <th>
+                            CREATED
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                    {% for ticket in tickets %}
+
+                    <tr
+                        class="ticket-row"
+                        data-type="{{ ticket.ticket_type }}"
+                        data-state="{{ ticket.state }}"
+                    >
+
+                        <td>
+
+                            <a
+                                href="{{ url_for('ticket_detail', ticket_id=ticket.id) }}"
+                                class="ticket-link"
+                            >
+                                {{ ticket.ticket_number }}
+                            </a>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="type-badge">
+                                {{ ticket.ticket_type }}
+                            </span>
+
+                        </td>
+
+
+                        <td class="description-cell">
+
+                            {{ ticket.short_description }}
+
+                        </td>
+
+
+                        <td class="category-cell">
+
+                            {{ ticket.category or "-" }}
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="state-badge">
+                                {{ ticket.state or "-" }}
+                            </span>
+
+                        </td>
+
+
+                        <td class="priority">
+
+                            {{ ticket.priority or "-" }}
+
+                        </td>
+
+
+                        <td class="created-cell">
+
+                            {{ ticket.created_at.strftime('%d-%m-%Y %H:%M') if ticket.created_at else "-" }}
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+
+            <!-- EMPTY SEARCH/FILTER STATE -->
+
+            <div
+                class="empty-state"
+                id="emptyState"
+            >
+
+                <div class="empty-title">
+                    No tickets found
+                </div>
+
+                <div class="empty-text">
+                    Try changing the filter or search term.
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </main>
+
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+
+        const filterButtons =
+            document.querySelectorAll(".filter-btn");
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const rows =
+            document.querySelectorAll(".ticket-row");
+
+        const emptyState =
+            document.getElementById("emptyState");
+
+        const recordCount =
+            document.getElementById("recordCount");
+
+
+        let currentFilter = "all";
+
+
+        function filterTickets() {
+
+            const searchText =
+                searchInput.value.toLowerCase().trim();
+
+            let visibleCount = 0;
+
+
+            rows.forEach(function(row) {
+
+                const type =
+                    row.dataset.type;
+
+                const state =
+                    row.dataset.state;
+
+                const rowText =
+                    row.innerText.toLowerCase();
+
+
+                let filterMatch = false;
+
+
+                if (currentFilter === "all") {
+
+                    filterMatch = true;
+
+                }
+                else if (
+                    currentFilter === "Incident" ||
+                    currentFilter === "Request"
+                ) {
+
+                    filterMatch =
+                        type === currentFilter;
+
+                }
+                else {
+
+                    filterMatch =
+                        state === currentFilter;
+
+                }
+
+
+                const searchMatch =
+                    rowText.includes(searchText);
+
+
+                if (filterMatch && searchMatch) {
+
+                    row.style.display = "";
+
+                    visibleCount++;
+
+                }
+                else {
+
+                    row.style.display = "none";
+
+                }
+
+            });
+
+
+            if (visibleCount === 0) {
+
+                emptyState.style.display = "block";
+
+            }
+            else {
+
+                emptyState.style.display = "none";
+
+            }
+
+
+            recordCount.textContent =
+                visibleCount +
+                (visibleCount === 1 ? " record" : " records");
+
+        }
+
+
+        filterButtons.forEach(function(button) {
+
+            button.addEventListener(
+                "click",
+                function() {
+
+                    filterButtons.forEach(
+                        function(btn) {
+                            btn.classList.remove("active");
+                        }
+                    );
+
+
+                    button.classList.add("active");
+
+
+                    currentFilter =
+                        button.dataset.filter;
+
+
+                    filterTickets();
+
+                }
+            );
+
+        });
+
+
+        searchInput.addEventListener(
+            "input",
+            filterTickets
+        );
+
+
+        filterTickets();
+
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ServiceNow | Login</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f4f6f8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1f2933;
+        }
+
+        .page {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 430px;
+        }
+
+        /* =========================
+           LOGO
+        ========================= */
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: #111827;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-subtitle {
+            margin-top: 7px;
+            font-size: 13px;
+            color: #6b7280;
+        }
+
+        /* =========================
+           LOGIN CARD
+        ========================= */
+
+        .login-card {
+            background: white;
+            border: 1px solid #d9dee5;
+            padding: 35px;
+        }
+
+        .login-title {
+            font-size: 23px;
+            font-weight: 600;
+            color: #111827;
+            margin-bottom: 7px;
+        }
+
+        .login-description {
+            color: #6b7280;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 27px;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 19px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            height: 42px;
+            border: 1px solid #cbd5e1;
+            border-radius: 3px;
+            padding: 0 12px;
+            font-size: 13px;
+            color: #1f2933;
+            outline: none;
+            background: white;
+        }
+
+        input:focus {
+            border-color: #6b7280;
+            box-shadow: 0 0 0 1px #e5e7eb;
+        }
+
+        /* =========================
+           PASSWORD
+        ========================= */
+
+        .password-wrapper {
+            position: relative;
+        }
+
+        .password-wrapper input {
+            padding-right: 45px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .password-toggle svg {
+            width: 18px;
+            height: 18px;
+            stroke: #6b7280;
+            fill: none;
+            stroke-width: 1.8;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .password-toggle:hover svg {
+            stroke: #111827;
+        }
+
+        /* =========================
+           LOGIN BUTTON
+        ========================= */
+
+        .login-button {
+            width: 100%;
+            height: 43px;
+            background: #111827;
+            color: white;
+            border: 1px solid #111827;
+            border-radius: 3px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        .login-button:hover {
+            background: #1f2937;
+        }
+
+        /* =========================
+           REGISTER
+        ========================= */
+
+        .register-section {
+            text-align: center;
+            margin-top: 22px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .register-text {
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .register-link {
+            color: #111827;
+            font-weight: 600;
+            text-decoration: none;
+            margin-left: 4px;
+        }
+
+        .register-link:hover {
+            text-decoration: underline;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 500px) {
+
+            .page {
+                padding: 18px;
+            }
+
+            .login-card {
+                padding: 27px 22px;
+            }
+
+            .logo {
+                font-size: 24px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <div class="page">
+
+
+        <div class="login-container">
+
+
+            <!-- LOGO -->
+
+            <div class="logo-section">
+
+                <div class="logo">
+                    ServiceNow
+                </div>
+
+                <div class="logo-subtitle">
+                    IT Service Management Portal
+                </div>
+
+            </div>
+
+
+            <!-- LOGIN CARD -->
+
+            <div class="login-card">
+
+
+                <div class="login-title">
+                    Welcome!
+                </div>
+
+
+                <div class="login-description">
+                    Sign in to access your ServiceNow dashboard.
+                </div>
+
+
+                <form
+                    method="POST"
+                    action="{{ url_for('login') }}"
+                >
+
+
+                    <!-- EMPLOYMENT NUMBER -->
+
+                    <div class="form-group">
+
+                        <label for="employment_number">
+                            Employment Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="employment_number"
+                            name="employment_number"
+                            placeholder="Enter employment number"
+                            required
+                            autocomplete="username"
+                        >
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Enter password"
+                                required
+                                autocomplete="current-password"
+                            >
+
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword()"
+                                aria-label="Show password"
+                            >
+
+                                <svg
+                                    id="eyeIcon"
+                                    viewBox="0 0 24 24"
+                                >
+
+                                    <path
+                                        d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"
+                                    ></path>
+
+                                    <circle
+                                        cx="12"
+                                        cy="12"
+                                        r="2.5"
+                                    ></circle>
+
+                                </svg>
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LOGIN -->
+
+                    <button
+                        type="submit"
+                        class="login-button"
+                    >
+                        Sign In
+                    </button>
+
+
+                </form>
+
+
+                <!-- CREATE ACCOUNT -->
+
+                <div class="register-section">
+
+                    <span class="register-text">
+                        Don't have an account?
+                    </span>
+
+                    <a
+                        href="{{ url_for('register') }}"
+                        class="register-link"
+                    >
+                        Create Account
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="footer">
+                ServiceNow IT Service Management Portal
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <script>
+
+        function togglePassword() {
+
+            const password =
+                document.getElementById("password");
+
+            const icon =
+                document.getElementById("eyeIcon");
+
+
+            if (password.type === "password") {
+
+                password.type = "text";
+
+                icon.innerHTML = `
+                    <path d="M3 3l18 18"></path>
+                    <path d="M10.5 5.2C11 5.1 11.5 5 12 5c6.5 0 10 7 10 7s-1.4 2.4-4 4.2"></path>
+                    <path d="M6.6 6.6C3.8 8.4 2 12 2 12s3.5 7 10 7c1.7 0 3.2-.4 4.5-1"></path>
+                `;
+
+            }
+            else {
+
+                password.type = "password";
+
+                icon.innerHTML = `
+                    <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"></path>
+                    <circle cx="12" cy="12" r="2.5"></circle>
+                `;
+
+            }
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>
